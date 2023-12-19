@@ -20,10 +20,17 @@ contract FundMe{
         require(msg.value.getConversionRate() >= MINIMUM_USD, "You need to spend more ETH!");
         //require(getConversionRate(msg.value) >= minimumUSD,"Send more money pleaze :)");
         funders.push(msg.sender);
-        addressToAmountFunded[msg.sender] = addressToAmountFunded[msg.sender] + msg.value;
+        addressToAmountFunded[msg.sender] += msg.value;
     }
 
-    function withdraw() public {}
+    function withdraw() public {
+
+        for(uint256 funderIndex=0; funderIndex < funders.length; funderIndex++){
+            address funder = funders[funderIndex];
+            addressToAmountFunded[funder] = 0;
+        }
+        
+    }
 
     function getPrice() public view returns(uint256){
         //Address - 0x694AA1769357215DE4FAC081bf1f309aDC325306

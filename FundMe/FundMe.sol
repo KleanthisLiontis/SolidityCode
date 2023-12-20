@@ -16,7 +16,7 @@ contract FundMe {
 
     //constant is used for compile time var declaration
     uint256 public constant MINIMUM_USD = 5e18;
-    address[] public funders;
+    address[] private s_funders;
     mapping(address => uint256 amountFunded) public addressToAmountFunded;
 
     //Immutable is set once and then cannot change.
@@ -33,7 +33,7 @@ contract FundMe {
             "You need to spend more ETH!"
         );
         //require(getConversionRate(msg.value) >= minimumUSD,"Send more money pleaze :)");
-        funders.push(msg.sender);
+        s_funders.push(msg.sender);
         addressToAmountFunded[msg.sender] += msg.value;
     }
 
@@ -41,10 +41,10 @@ contract FundMe {
         //require(msg.sender == owner,"Must be owner");
         for (
             uint256 funderIndex = 0;
-            funderIndex < funders.length;
+            funderIndex < s_funders.length;
             funderIndex++
         ) {
-            address funder = funders[funderIndex];
+            address funder = s_funders[funderIndex];
             addressToAmountFunded[funder] = 0;
         }
         //reset the array.

@@ -15,3 +15,7 @@ docs/
 
 broadcast/
 lib/
+
+src/frontend/encryptedKey.json
+node_modules
+dist

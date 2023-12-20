@@ -8,6 +8,9 @@ import {DevOpsTools} from "foundry-devops/src/DevOpsTools.sol";
 contract FundFundMe is Script {
     uint256 SEND_VALUE = 0.1 ether;
 
+    //Auto fund testing contract
+    //Forge script script/Interactions.s.sol:FundFundMe
+
     function fundFundMe(address mostRecentlyDeployed) public {
         vm.startBroadcast();
         FundMe(payable(mostRecentlyDeployed)).fund{value: SEND_VALUE}();
@@ -16,6 +19,7 @@ contract FundFundMe is Script {
     }
 
     function run() external {
+        //This is where I could manually set logic to look for contracts deployed on chain but lib import does it.
         address mostRecentlyDeployed = DevOpsTools.get_most_recent_deployment("FundMe", block.chainid);
         fundFundMe(mostRecentlyDeployed);
     }

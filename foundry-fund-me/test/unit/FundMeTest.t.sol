@@ -8,8 +8,7 @@ import {HelperConfig} from "../../script/HelperConfig.s.sol";
 import {Test, console} from "forge-std/Test.sol";
 import {StdCheats} from "forge-std/StdCheats.sol";
 
-
-    /*  What to do with addresses outside our system?
+/*  What to do with addresses outside our system?
         1. Unit
            - Testing a specific part of our code
         2. Intergration
@@ -47,7 +46,7 @@ contract FundMeTest is StdCheats, Test {
     function testOwnerIsMsgSender() public {
         console.log(fundMe.getOwner());
         console.log(msg.sender);
-        assertEq(fundMe.getOwner(),msg.sender);
+        assertEq(fundMe.getOwner(), msg.sender);
         //assertEq(fundMe.getOwner(),address(this));
     }
 
@@ -59,7 +58,7 @@ contract FundMeTest is StdCheats, Test {
     }
 
     function testFundFailsWithoutEnoughETH() public {
-        vm.expectRevert();//Next line should revert we arent sending eth
+        vm.expectRevert(); //Next line should revert we arent sending eth
         fundMe.fund();
     }
 
@@ -109,7 +108,7 @@ contract FundMeTest is StdCheats, Test {
         fundMe.withdraw();
         vm.stopPrank();
 
-        //Test we dont use too much gas and we cannot execute function 
+        //Test we dont use too much gas and we cannot execute function
         // uint256 gasEnd = gasleft();
         // uint256 gasUsed = (gasStart - gasEnd) * tx.gasprice;
 

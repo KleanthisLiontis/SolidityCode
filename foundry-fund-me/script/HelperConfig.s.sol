@@ -5,7 +5,6 @@ import {MockV3Aggregator} from "../test/mock/MockV3Aggregator.sol";
 import {Script} from "forge-std/Script.sol";
 
 contract HelperConfig is Script {
-
     //If we are on a local anvil, we deploy mocks
     //Otherwise grab the existing address from the live network
     NetworkConfig public activeNetworkConfig;
@@ -24,8 +23,8 @@ contract HelperConfig is Script {
         //This is for Sepolia
         if (block.chainid == 11155111) {
             activeNetworkConfig = getSepoliaEthConfig();
-        }else if(block.chainid == 1) {
-            activeNetworkConfig = getEthMainNetConfig(); 
+        } else if (block.chainid == 1) {
+            activeNetworkConfig = getEthMainNetConfig();
         } else {
             //This is for Anvil
             activeNetworkConfig = getOrCreateAnvilEthConfig();
@@ -51,10 +50,7 @@ contract HelperConfig is Script {
             return activeNetworkConfig;
         }
         vm.startBroadcast();
-        MockV3Aggregator mockPriceFeed = new MockV3Aggregator(
-            DECIMALS,
-            INITIAL_PRICE
-        );
+        MockV3Aggregator mockPriceFeed = new MockV3Aggregator(DECIMALS, INITIAL_PRICE);
         vm.stopBroadcast();
         emit HelperConfig__CreatedMockPriceFeed(address(mockPriceFeed));
 

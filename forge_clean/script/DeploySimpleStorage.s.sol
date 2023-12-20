@@ -10,7 +10,6 @@ contract DeploySimpleStorage is Script {
         vm.startBroadcast();
         SimpleStorage simpleStorage = new SimpleStorage();
 
-
         vm.stopBroadcast();
         return simpleStorage;
     }

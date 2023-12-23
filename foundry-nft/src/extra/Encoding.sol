@@ -110,7 +110,7 @@ contract Encoding {
 
     // We could just use this superpower to send transactions to do EXACTLY what we want them to do...
 
-    // Remeber how before I said you always need two things to call a contract:
+    // Remeber how you always need two things to call a contract:
     // 1. ABI
     // 2. Contract Address?
     // Well... That was true, but you don't need that massive ABI file. All we need to know is how to create the binary to call
@@ -123,7 +123,7 @@ contract Encoding {
     // staticcall: This is how (at a low level) we do our "view" or "pure" function calls, and potentially don't change the blockchain state.
 
     // When you call a function, you are secretly calling "call" behind the scenes, with everything compiled down to the binary stuff
-    // for you. Flashback to when we withdrew ETH from our raffle:
+    // From raffle contract:
 
     function withdraw(address recentWinner) public {
         (bool success,) = recentWinner.call{value: address(this).balance}("");
@@ -135,6 +135,4 @@ contract Encoding {
     // - In our () we were able to pass data in order to call a specific function - but there was no function we wanted to call!
     // We only sent ETH, so we didn't need to call a function!
     // If we want to call a function, or send any data, we'd do it in these parathesis!
-
-    // Let's look at another contract to explain this more...
 }

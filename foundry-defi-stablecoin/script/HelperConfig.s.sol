@@ -5,7 +5,7 @@ import {Script} from "forge-std/Script.sol";
 import {DecentralisedStableCoin} from "../src/DecentralisedStableCoin.sol";
 import {DSCEngine} from "../src/DSCEngine.sol";
 import {MockV3Aggregator} from "../test/mocks/MockV3Aggregator.sol";
-import {ERC20Mock} from "lib/openzeppelin-contracts/contracts/mocks/token/ERC20Mock.sol";
+import {ERC20Mock} from "lib/openzeppelin-contracts/contracts/mocks/ERC20Mock.sol";
 //import {ERC20Mock} from "lib/openzeppelin-contracts/contracts/mocks/ERC20Mock.sol";
 
 contract HelperConfig is Script {

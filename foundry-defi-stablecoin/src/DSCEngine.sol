@@ -53,12 +53,13 @@ contract DSCEngine is ReentrancyGuard {
     ////////////////////////////
     ////   State variables  ////
     ////////////////////////////
-    uint256 private constant ADDIOTIONAL_FEED_PRECISION = 1e10;
+    uint256 private constant ADDITIONAL_FEED_PRECISION = 1e10;
     uint256 private constant PRECISION = 1e18;
+    uint256 private constant FEED_PRECISION = 1e8;
     uint256 private constant LIQUIDATION_THRESHOLD = 50; // 200% Overcollateralized.
+    uint256 private constant LIQUIDATION_BONUS = 10; //Means 10% bonus
     uint256 private constant LIQUIDATION_PRECISION = 100;
     uint256 private constant MIN_HEALTH_FACTOR = 1e18;
-    uint256 private constant LIQUIDATION_BONUS = 10; //Means 10% bonus
 
     mapping(address token => address priceFeed) private s_priceFeeds; //tokenToPriceFeed
     mapping(address user => mapping(address token => uint256 amount)) private s_collateralDeposited;
@@ -320,7 +321,7 @@ contract DSCEngine is ReentrancyGuard {
         //1 ETH = 2.3k dollars
         //The price from ChainL will be 2300 * 1e8; Check their site.
         //Amount will be 1e18 -> Have to standardise and then divide by 1e18
-        return ((uint256(price) * ADDIOTIONAL_FEED_PRECISION) * amount) / PRECISION;
+        return ((uint256(price) * ADDITIONAL_FEED_PRECISION) * amount) / PRECISION;
     }
 
     function getTokenAmountFromUsd(address token, uint256 usdAmountInWei) public view returns (uint256) {
@@ -328,6 +329,9 @@ contract DSCEngine is ReentrancyGuard {
         //$2000 / ETH. -> 1000/ETH = 0.5 ETH
         AggregatorV3Interface priceFeed = AggregatorV3Interface(s_priceFeeds[token]);
         (, int256 price,,,) = priceFeed.latestRoundData();
-        return (usdAmountInWei * PRECISION) / uint256(price) * ADDIOTIONAL_FEED_PRECISION;
+        // The returned value from Chainlink will be 2000 * 1e8
+        // Most USD pairs have 8 decimals, so we will just pretend they all do
+        //BRACKETS FOR MATHS ARE VERY MUCH NEEDED
+        return ((usdAmountInWei * PRECISION) / (uint256(price) * ADDITIONAL_FEED_PRECISION));
     }
 }

@@ -30,6 +30,20 @@ contract DSCEngineTest is Test {
         ERC20Mock(weth).mint(USER, STARTING_ERC20_BALANCE);
     }
 
+    /////////////////////
+    //Constructor Tests//
+    /////////////////////
+    address[] public tokenAddresses;
+    address[] public priceFeedAddresses;
+
+    function testRevertsIfTokenLengthDoesntMatchPriceFeeds() public {
+        tokenAddresses.push(weth);
+        priceFeedAddresses.push(ethUsdPriceFeed);
+        priceFeedAddresses.push(btcUsdPriceFeed);
+        vm.expectRevert(DSCEngine.DSCEngine__TokenAddressesAndPriceFeedAddressesMustBeSameLength.selector);
+        new DSCEngine(tokenAddresses, priceFeedAddresses, address(dsc));
+    }
+
     ///////////////
     //Price Tests//
     ///////////////
@@ -39,6 +53,14 @@ contract DSCEngineTest is Test {
         uint256 exepctedUsd = 30000e18;
         uint256 actualUsd = dscEngine.getUsdValue(weth, ethAmount);
         assertEq(exepctedUsd, actualUsd);
+    }
+
+    function testGetTokenAmountFromUsd() public {
+        // If we want $100 of WETH @ $2000/WETH, that would be 0.05 WETH
+        uint256 usdAmmount = 100 ether;
+        uint256 expectedWeth = 0.05 ether;
+        uint256 actualWeth = dscEngine.getTokenAmountFromUsd(weth, usdAmmount);
+        assertEq(expectedWeth, actualWeth);
     }
 
     ////////////////////////////////

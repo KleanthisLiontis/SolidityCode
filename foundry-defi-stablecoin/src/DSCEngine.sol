@@ -46,9 +46,10 @@ contract DSCEngine is ReentrancyGuard {
     error DSCEngine__TokenAddressesAndPriceFeedAddressesMustBeSameLength();
     error DSCEngine__TransferFailed();
     error DSCEngine__BreaksHealthFactor(uint256 _healthFactor);
-    error DSCEngine_MintFailed();
+    error DSCEngine__MintFailed();
     error DSCEngine__HealthFactorOK();
     error DSCEngine__HealthFactorNotImproved();
+    error DSCEngine__NotallowedToken();
 
     ////////////////////////////
     ////   State variables  ////
@@ -88,7 +89,7 @@ contract DSCEngine is ReentrancyGuard {
 
     modifier isAllowedToken(address _tokenAddress) {
         if (s_priceFeeds[_tokenAddress] == address(0)) {
-            revert DSCEngine__NeedsMoreThanZero();
+            revert DSCEngine__NotallowedToken();
         }
         _;
     }

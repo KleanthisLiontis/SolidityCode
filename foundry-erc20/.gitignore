@@ -11,4 +11,5 @@ out/
 docs/
 
 # Dotenv file
+/lib/openzeppelin/contracts
 .env

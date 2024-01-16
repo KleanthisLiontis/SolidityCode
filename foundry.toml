@@ -2,6 +2,7 @@
 src = "src"
 out = "out"
 libs = ["lib"]
+#ffi = false SET THIS TO FALSE WHEN NOT USING MAKEFILE
 ffi = true
 
 remappings = [
